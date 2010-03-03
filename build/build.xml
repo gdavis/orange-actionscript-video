@@ -2,18 +2,12 @@
 
 <!--
 	Build items for the orange-actionscript project.
-	@author Matthew Kitt
-	@author Ryan Boyajian
-	@author Sean Dougherty
-	
+	@author Grant Davis
 	ant howto: http://ant.apache.org/manual/running.html
 	
-	TODO: Enable junit reporting with asunit.
-	TODO: Figure out a way to get success messages from asunit to the tasks so we can fail the ant tasks if a unit test fails.
-	TODO: There is a an XSLT stylesheet needed for link reports, we will add this in later for now see MK.
-	TODO: Tie in the swc generation to a release task.
+	TODO: Look into adding performance testing
 -->
-<project name="orange-actionscript" basedir="../" default="usage">
+<project name="orange-actionscript-video" basedir="../" default="usage">
 
 <!-- PROPERTY ASSIGNMENT & INITIALIZATION ========================================================================== -->	
     
@@ -51,7 +45,7 @@
     <!-- 
     public generate-swc-core --> 
 	<target name="asdoc" description="Generates the ASDocumentation for all orange packages"
-	    depends="-generate-time-stamp, asunit-core, compile-barebones, init-asdocs">
+	    depends="-generate-time-stamp, asunit-core-video, compile-simple-player, init-asdocs">
 	    
 	    <echo>[asdoc] Generating ASDocs</echo>
 	    <java jar="${FLEX_HOME}/lib/asdoc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
@@ -70,7 +64,7 @@
     
     <!-- 
     public --> 
-    <target name="asunit-core" 
+    <target name="asunit-core-video" 
         description="Compiles, tests and generates reports for the orange.${test.core.packagename} package">
         <echo>[asunit-core] Running unit test tasks for the orange.${test.core.packagename} package</echo>
 
@@ -103,35 +97,35 @@
     
     <!-- 
     public -->
-    <target name="compile-barebones"
-    	description="Compiles the barebones package using MXMLC">
+    <target name="compile-simple-player"
+    	description="Compiles the Simple Player example">
         <echo>[compile-barebones] Compiling the barebones package</echo>
         <antcall target="-compile-mxmlc">
-            <param name="param.mainclass" value="${bb.main}"/>
+            <param name="param.mainclass" value="${simple.main}"/>
             <param name="param.classpath" value="${examples}"/>
-            <param name="param.swf" value="${bb.swf}"/>
-            <param name="param.width" value="${bb.width}"/>
-            <param name="param.height" value="${bb.height}"/>
-            <param name="param.color" value="${bb.color}"/>
+            <param name="param.swf" value="${simple.swf}"/>
+            <param name="param.width" value="${simple.width}"/>
+            <param name="param.height" value="${simple.height}"/>
+            <param name="param.color" value="${simple.color}"/>
             <param name="param.isHeadless" value="true"/>
             <param name="param.isDebug" value="false"/>
-            <param name="param.reportname" value="${bb.reportname}"/>
+            <param name="param.reportname" value="${simple.reportname}"/>
         </antcall>
 
         <antcall target="-publish-link-report">
-            <param name="param.reportname" value="${bb.reportname}"/>
+            <param name="param.reportname" value="${simple.reportname}"/>
         </antcall>
         
-        <echo>[compile-barebones] Compiling the barebones package complete</echo>
+        <echo>[compile-simple-player] Compiling of the SimplePlayer is complete.</echo>
     </target>
     
     <!--
     public -->
-    <target name="generate-swc-core" description="Generates the swc for the core package">
+    <target name="generate-swc" description="Generates the swc for the video package">
         <echo>[generate-swc-core] Compiling the swc for the core package</echo>
         <antcall target="-compile-compc">
-            <param name="param.packagename" value="${src.core.name}"/>
-            <param name="param.src.loc" value="${src.core.loc}"/>
+            <param name="param.packagename" value="${src.video.name}"/>
+            <param name="param.src.loc" value="${src.video.loc}"/>
         </antcall>
         <echo>[generate-swc-core] Compiling the swc for the core package complete</echo>
     </target>
@@ -147,7 +141,7 @@
     
     <!--
 	public -->
-    <target name="fdt-asunit-core" description="FDT specific: debugs the asunit tests for the orange.${test.core.packagename} package via FDT ant tasks" >
+    <target name="fdt-asunit-video" description="FDT specific: debugs the asunit tests for the orange.${test.core.packagename} package via FDT ant tasks" >
         <antcall target="-fdt-start-debugger"></antcall>
         <antcall target="-compile-fdt">
             <param name="param.mainclass" value="${test.core.runner}"/>
@@ -161,21 +155,7 @@
         </antcall>
     </target>
 	
-	<target name="fdt-asunit-core-net" description="FDT specific: debugs the asunit tests for the orange.${test.net.packagename} package via FDT ant tasks" >
-	        <antcall target="-compile-fdt">
-	            <param name="param.mainclass" value="${test.net.runner}"/>
-	            <param name="param.swf" value="${test.net.swf}"/>
-	            <param name="param.autostart" value="false"/>
-	            <param name="param.launcher" value=""/>
-	            <param name="param.width" value="${test.net.width}"/>
-	            <param name="param.height" value="${test.net.height}"/>
-	            <param name="param.color" value="${test.net.color}"/>
-	            <param name="param.isDebug" value="true"/>
-	        </antcall>
-			<fdt.browse location="http://localhost/orange-actionscript/docs/reports/tests/index.html" />
-	        <antcall target="-fdt-start-debugger"></antcall>
-	    </target>
-    
+	<!--
     <target name="fdt-gstest-core" description="FDT Specific: Generates performance test for the core package">
         <antcall target="-compile-fdt">
             <param name="param.mainclass" value="${perf.core.runner}"/>
@@ -187,24 +167,24 @@
             <param name="param.color" value="${perf.core.color}"/>
             <param name="param.isDebug" value="false"/>
         </antcall>
-        <!-- <antcall target="-fdt-start-debugger"></antcall> -->
         <fdt.browse location="${perf.core.url}"/>
     </target>
+    -->
     
     <!--
 	public -->
-    <target name="fdt-barebones" description="FDT specific: debugs the barebones package via FDT ant tasks" >
+    <target name="fdt-simple-player" description="FDT specific: debugs the Simple Player example via FDT ant tasks" >
         <antcall target="-compile-fdt">
-            <param name="param.mainclass" value="${bb.main}"/>
-            <param name="param.swf" value="${bb.swf}"/>
+            <param name="param.mainclass" value="${simple.main}"/>
+            <param name="param.swf" value="${simple.swf}"/>
             <param name="param.autostart" value="false"/>
             <param name="param.launcher" value=""/>
-            <param name="param.width" value="${bb.width}"/>
-            <param name="param.height" value="${bb.height}"/>
-            <param name="param.color" value="${bb.color}"/>
+            <param name="param.width" value="${simple.width}"/>
+            <param name="param.height" value="${simple.height}"/>
+            <param name="param.color" value="${simple.color}"/>
             <param name="param.isDebug" value="true"/>
         </antcall>
-        <fdt.browse location="${bb.url}"/>
+        <fdt.browse location="${simple.url}"/>
         <antcall target="-fdt-start-debugger"></antcall>
     </target>
     
