@@ -45,7 +45,7 @@
     <!-- 
     public generate-swc-core --> 
 	<target name="asdoc" description="Generates the ASDocumentation for all orange packages"
-	    depends="-generate-time-stamp, asunit-core-video, compile-simple-player, init-asdocs">
+	    depends="-generate-time-stamp, asunit-tests, compile-simple-player, init-asdocs">
 	    
 	    <echo>[asdoc] Generating ASDocs</echo>
 	    <java jar="${FLEX_HOME}/lib/asdoc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
@@ -64,7 +64,7 @@
     
     <!-- 
     public --> 
-    <target name="asunit-core-video" 
+    <target name="asunit-tests" 
         description="Compiles, tests and generates reports for the orange.${test.core.packagename} package">
         <echo>[asunit-core] Running unit test tasks for the orange.${test.core.packagename} package</echo>
 
@@ -141,7 +141,7 @@
     
     <!--
 	public -->
-    <target name="fdt-asunit-video" description="FDT specific: debugs the asunit tests for the orange.${test.core.packagename} package via FDT ant tasks" >
+    <target name="fdt-asunit-tests" description="FDT specific: debugs the asunit tests for the orange.${test.core.packagename} package via FDT ant tasks" >
         <antcall target="-fdt-start-debugger"></antcall>
         <antcall target="-compile-fdt">
             <param name="param.mainclass" value="${test.core.runner}"/>
