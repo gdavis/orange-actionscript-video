@@ -65,7 +65,8 @@ package com.factorylabs.orange.unit.asunit.ui
 		{
 			if( Security.sandboxType == Security.REMOTE )
 				ExternalInterface.call( "window.close" );
-							if( Security.sandboxType == Security.LOCAL_WITH_NETWORK )
+				
+			if( Security.sandboxType == Security.LOCAL_WITH_NETWORK )
 				fscommand('quit');
 		}
 	}
