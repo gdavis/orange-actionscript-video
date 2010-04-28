@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>
+			Simple Player Example
+		</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+		<script type="text/javascript">
+			<!--
+			var flashVars = {};
+			var params = { base:"", scale:"noscale", allowScriptAccess:"sameDomain", quality:"best", wmode:"opaque", allowFullScreen:"true" };
+			var attributes = { id:"site", bgcolor:"#666" };
+			swfobject.embedSWF( "simple-player.swf", "flashcontent", "100%", "100%", "10", "media/swfs/expressinstall.swf", flashVars, params, attributes );
+			swfobject.createCSS("#site","outline:none;"); 
+			-->
+		</script>
+		<style type="text/css">
+			html
+			{
+				height:100%;
+				overflow:hidden;
+			}
+			body
+			{
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body bgcolor="#666">
+		<div id="flashcontent">
+			<div id="error_content_container">
+				<p>Missing Flash Plugin. Please install the latest Flash Plugin<br/>
+				<a href="http://get.adobe.com/flashplayer/" class="arrow" target="_blank">Free Download</a></p>
+			</div>
+		</div>
+	</body>
+</html>
